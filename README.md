@@ -1,27 +1,26 @@
-# Prashant AI Agent 🚀
+# Prashant AI Chatbot 🚀
 
-An AI chatbot built using:
+A local AI chatbot built using **n8n**, **Ollama**, **Llama3**, **Docker**, and **Webhook APIs**.
 
-- **n8n**
-- **Ollama**
-- **Llama3**
-- **Docker**
-- **Webhook APIs**
-- **curl / Postman testing**
-
-This project demonstrates how to create a local AI agent using n8n workflows and Ollama.
+This project demonstrates how to create a **local AI chatbot** using n8n workflows and Ollama. The chatbot runs locally, accepts user questions through a REST API, and generates responses using the **Llama3** model.
 
 ---
 
 # 📌 Features
 
-- AI chatbot using Llama3
-- Custom AI identity ("Prashant AI Agent")
-- REST API using n8n Webhook
-- Docker-based setup
-- Local Ollama integration
-- Postman & curl testing
-- Easy to extend with WhatsApp, Telegram, RAG, etc.
+* AI chatbot powered by **Llama3**
+* Custom AI identity (**"Prashant AI Chatbot"**)
+* REST API using **n8n Webhook**
+* Docker-based setup
+* Local **Ollama** integration
+* **Postman** and **curl** testing support
+* Easy to extend with:
+
+  * WhatsApp integration
+  * Telegram bot
+  * RAG / document chat
+  * Memory support
+  * Voice AI
 
 ---
 
@@ -45,7 +44,7 @@ API Response
 
 # 🐳 Docker Setup
 
-## Create docker-compose.yml
+## Create `docker-compose.yml`
 
 ```yaml
 version: '3'
@@ -74,33 +73,47 @@ services:
 
 # ▶️ Start Containers
 
+Run the following command:
+
 ```bash
 docker compose up -d
+```
+
+Verify running containers:
+
+```bash
+docker ps
 ```
 
 ---
 
 # 🤖 Install Llama3
 
-Enter Ollama container:
+Enter the Ollama container:
 
 ```bash
 docker exec -it <container_name> bash
 ```
 
-Pull model:
+Pull the Llama3 model:
 
 ```bash
 ollama pull llama3
+```
+
+You can verify installed models:
+
+```bash
+ollama list
 ```
 
 ---
 
 # 🌐 Access Applications
 
-| Service | URL |
-|---|---|
-| n8n | http://localhost:5678 |
+| Service    | URL                    |
+| ---------- | ---------------------- |
+| n8n        | http://localhost:5678  |
 | Ollama API | http://localhost:11434 |
 
 ---
@@ -119,38 +132,38 @@ Respond to Webhook
 
 ---
 
-# 1️⃣ Webhook Node Configuration
+## 1️⃣ Webhook Node Configuration
 
-| Field | Value |
-|---|---|
-| HTTP Method | POST |
-| Path | prashant-ai-agent |
-| Authentication | None |
-| Respond | Using Respond to Webhook Node |
+| Field          | Value                         |
+| -------------- | ----------------------------- |
+| HTTP Method    | POST                          |
+| Path           | `prashant-ai-chatbot`         |
+| Authentication | None                          |
+| Respond        | Using Respond to Webhook Node |
 
 ---
 
-# 2️⃣ HTTP Request Node Configuration
+## 2️⃣ HTTP Request Node Configuration
 
-## Method
+### Method
 
 ```text
 POST
 ```
 
-## URL
+### URL
 
 ```text
 http://host.docker.internal:11434/api/chat
 ```
 
-## Body Content Type
+### Body Content Type
 
 ```text
 JSON
 ```
 
-## JSON Body
+### JSON Body
 
 ```json
 {
@@ -158,7 +171,7 @@ JSON
   "messages": [
     {
       "role": "system",
-      "content": "You are Prashant AI Agent. Only when someone asks your name or asks who you are, reply with: I am Prashant AI Agent. For all other questions, answer normally and do not mention your name unless needed."
+      "content": "You are Prashant AI Chatbot. Only when someone asks your name or who you are, reply with: I am Prashant AI Chatbot. For all other questions, answer normally and do not mention your name unless needed."
     },
     {
       "role": "user",
@@ -171,18 +184,18 @@ JSON
 
 ---
 
-# 3️⃣ Respond to Webhook Node
+## 3️⃣ Respond to Webhook Node
 
-| Field | Value |
-|---|---|
+| Field        | Value               |
+| ------------ | ------------------- |
 | Respond With | First Incoming Item |
 
 ---
 
 # 🚀 Publish Workflow
 
-1. Save workflow
-2. Click Publish
+1. Save the workflow
+2. Click **Publish**
 3. Workflow becomes active
 
 ---
@@ -192,7 +205,7 @@ JSON
 ## Ask Name
 
 ```bash
-curl --location 'http://localhost:5678/webhook/prashant-ai-agent' \
+curl --location 'http://localhost:5678/webhook/prashant-ai-chatbot' \
 --header 'Content-Type: application/json' \
 --data '{
   "question":"what is your name?"
@@ -206,17 +219,17 @@ curl --location 'http://localhost:5678/webhook/prashant-ai-agent' \
   "model": "llama3",
   "message": {
     "role": "assistant",
-    "content": "I am Prashant AI Agent."
+    "content": "I am Prashant AI Chatbot."
   }
 }
 ```
 
 ---
 
-# 🧪 Test Normal Questions
+## Ask Normal Questions
 
 ```bash
-curl --location 'http://localhost:5678/webhook/prashant-ai-agent' \
+curl --location 'http://localhost:5678/webhook/prashant-ai-chatbot' \
 --header 'Content-Type: application/json' \
 --data '{
   "question":"what is FastAPI?"
@@ -227,25 +240,25 @@ curl --location 'http://localhost:5678/webhook/prashant-ai-agent' \
 
 # 📮 Test Using Postman
 
-## Method
+### Method
 
 ```text
 POST
 ```
 
-## URL
+### URL
 
 ```text
-http://localhost:5678/webhook/prashant-ai-agent
+http://localhost:5678/webhook/prashant-ai-chatbot
 ```
 
-## Headers
+### Headers
 
 ```text
 Content-Type: application/json
 ```
 
-## Body
+### Request Body
 
 ```json
 {
@@ -291,7 +304,7 @@ Use:
 http://host.docker.internal:11434/api/chat
 ```
 
-instead of:
+Instead of:
 
 ```text
 http://localhost:11434/api/chat
@@ -303,47 +316,47 @@ http://localhost:11434/api/chat
 
 ### Cause
 
-Workflow not published or webhook test expired.
+The workflow is not published or the test webhook has expired.
 
 ### Fix
 
-- Click Publish
-- Use production URL:
+* Click **Publish**
+* Use the production webhook URL:
 
 ```text
-/webhook/prashant-ai-agent
+/webhook/prashant-ai-chatbot
 ```
 
 ---
 
 # 📈 Future Improvements
 
-- Memory support
-- RAG / document chat
-- WhatsApp integration
-- Telegram bot
-- Voice AI
-- Streaming responses
-- OpenAI integration
-- Public deployment
+* Memory support
+* RAG / document chat
+* WhatsApp integration
+* Telegram bot
+* Voice AI
+* Streaming responses
+* OpenAI integration
+* Public deployment
+* Multi-model support
 
 ---
 
 # 🛠️ Tech Stack
 
-- n8n
-- Ollama
-- Llama3
-- Docker
-- REST API
-- curl
-- Postman
+* n8n
+* Ollama
+* Llama3
+* Docker
+* REST API
+* curl
+* Postman
 
 ---
 
 # 👨‍💻 Author
 
-**Prashant AI Agent Project**
+**Prashant AI Chatbot**
 
-Built for showcasing local AI automation using n8n + Ollama.
-
+Built for showcasing **local AI chatbot development** using **n8n + Ollama + Llama3**.
