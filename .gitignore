@@ -1,0 +1,11 @@
+# n8n data
+.n8n/
+
+# Ollama models
+ollama/
+
+# Logs
+*.log
+
+# Environment files
+.env
